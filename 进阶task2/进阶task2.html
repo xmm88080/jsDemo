@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        li {
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        #input {
+            display: inline;
+        }
+
+        ul {
+            display: inline;
+            padding-left: 0;
+        }
+
+        #kong {
+            margin-left: 20px;
+        }
+
+        #view button {
+            display: inline-block;
+            background-color: chocolate;
+            margin-right: 10px;
+            font-size: 16px;
+            padding: 5px;
+
+
+        }
+
+        #view {
+            overflow: hidden;
+            margin-top: 20px;
+            width: 750px;
+            height: 300px;
+            margin-left: 20px;
+            border-bottom: 1px solid black;
+            position: relative;
+        }
+
+        #view div {
+
+            position: absolute;
+            bottom: 0;
+            margin-left: 5px;
+
+            width: 10px;
+        }
+
+        #order {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id=input>
+    <ul id="butt">
+        <li><button>左侧入</button></li>
+        <li><button>右侧入</button></li>
+        <li id="kong"><button>左侧出</button></li>
+        <li><button>右侧出</button></li>
+        <li id="order"><button>排序</button></li>
+        <li><button>随机50个数</button></li>
+    </ul>
+    <div id="view"></div>
+</body>
+<script>
+    var m = 0;
+    var data = new Array();
+    var n = 0;
+    function paixv() {
+        // var parent = document.getElementById("view");
+        var di = document.getElementById("view").getElementsByTagName("div");
+        var x = parseInt(di[n].style.height);
+        var y = parseInt(di[n + 1].style.height);
+        
+        if (x > data[n] || y < data[n + 1]) {
+            if (x > data[n]) {
+                x--;
+                di[n].style.height = x + "px";
+
+            }
+
+            if (y < data[n + 1]) {
+                y++;
+                di[n + 1].style.height = y + "px";
+            }
+            paixv();
+
+
+        }
+
+    }
+
+
+    function order() {
+        var don;
+        var length = data.length;
+        var em = document.getElementById("view").getElementsByTagName("div");
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < data.length - i - 1; j++) {
+                em[j].style.backgroundColor = "blue";
+                if (data[j] > data[j + 1]) {
+                    var p = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = p;
+                    n = j;
+                    paixv();
+                    setTimeout(() => {
+                        order();
+                    }, 100);
+                    em[j].style.backgroundColor = "green";
+                    // em[j].style.backgroundColor = "green";
+                    return 1;
+                }
+
+            }
+
+
+
+
+        }
+
+
+    }
+
+
+    function suiji() {
+        var pa = document.getElementById("view");
+        var oldNode = pa.getElementsByTagName("div");
+        if (oldNode.length != 0) {
+            alert("请清空所有数据");
+        } else {
+            for (let i = 0; i < 50; i++) {
+                let num = Math.floor(Math.random() * 90 + 10);
+                var node = document.createElement("div");
+                node.style.height = num + "px";
+                node.style.backgroundColor = "blue";
+                node.style.left = i * 15 + "px";
+                document.getElementById("view").appendChild(node);
+                data[i] = num;
+                m++;
+            }
+        }
+
+    }
+    function getnum() {
+
+        var input = document.getElementById("input");
+        if (!input.value) alert("请输入数字！");
+        var para = input.value;
+
+        var newStr = "";
+        if (input.value) {
+            for (var j = 0; j < para.length; j++) {
+                if (/[0-9]/g.test(para[j])) {
+                    newStr += para[j];
+                } else {
+                    alert("错误！请输入数字！")
+                    newStr = "";
+                    break;
+                }
+            }
+            return newStr;
+        }
+
+    }//获取文本框输入的数字并进行了验证
+    function sunshift() {
+        var para = document.getElementById("view");
+        var di = para.getElementsByTagName("div");
+        if(di.length==50) {
+            alert("超过50个数");
+            return false;
+        }
+        var tex = getnum();
+        var te = parseInt(tex);
+        data.unshift(te);
+        if (!tex) return false;
+
+
+        var ran = document.createElement("div");
+
+        ran.style.height = tex + "px";
+        ran.style.backgroundColor = "blue";
+
+        var ss = para.getElementsByTagName("div");
+        para.insertBefore(ran, ss[0]);
+        m++;
+        for (let j = 0; j < m; j++) {
+            ss[j].style.left = j * 15 + "px";
+        }
+
+
+    }//从数组第一个元素增加
+    function sshift() {
+        var para = document.getElementById("view");
+        var spa = para.getElementsByTagName("div");
+        if (!spa) return false;
+        data.shift();
+        para.removeChild(spa[0]);
+
+        m--;
+        for (let j = 0; j < m; j++) {
+            spa[j].style.left = j * 15 + "px";
+        }
+    }//从数组第一个元素减少
+    function spush() {
+        var para = document.getElementById("view");
+        var di = para.getElementsByTagName("div");
+        if(di.length==50) {
+            alert("超过50个数");
+            return false;
+        }
+        var tex = getnum();
+        var te = parseInt(tex);
+        data.push(te);
+        if (!tex) return false;
+
+
+        var ran = document.createElement("div");
+
+        ran.style.height = tex + "px";
+        ran.style.backgroundColor = "blue";
+
+        var ss = para.getElementsByTagName("div");
+
+        para.appendChild(ran);
+        m++;
+        for (let j = 0; j < m; j++) {
+            ss[j].style.left = j * 15 + "px";
+        }
+
+
+    }//从数组最后一个元素增加
+    function spop() {
+        var para = document.getElementById("view");
+        var spa = para.getElementsByTagName("div");
+        if (!spa) return false;
+        data.pop();
+        para.removeChild(spa[m - 1]);
+
+        m--;
+        for (let j = 0; j < m; j++) {
+            spa[j].style.left = j * 15 + "px";
+        }
+    }//从数组最后一个元素减少
+
+    function leftInto() {
+        sunshift();//从数组第一个元素增加
+    }
+    function leftShift() {
+        sshift();//从数组第一个元素减少
+    }
+    function rightInto() {
+        spush();//从数组最后一个元素增加
+    }
+    function rightPop() {
+        spop();//从数组最后一个元素减少
+    }
+    function remove(parent, aa) {
+        parent.removeChild(aa);
+    }
+
+
+    function addButton() {
+        var bul = document.getElementById("butt");
+        var butt = bul.getElementsByTagName("button");
+
+        butt[0].onclick = function () {
+            leftInto();
+
+
+        }
+        butt[1].onclick = function () {
+            rightInto();
+
+
+
+        }
+        butt[2].onclick = function () {
+            leftShift();
+
+
+        }
+        butt[3].onclick = function () {
+            rightPop();
+
+        }
+        butt[4].onclick = function () {
+            order();
+        }
+        butt[5].onclick = function () {
+            suiji();
+        }
+    }
+    function init() {
+        addButton();
+    }
+    init();
+</script>
+
+</html>

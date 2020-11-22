@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        li {
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        #input {
+            display: inline;
+        }
+
+        ul {
+            display: inline;
+            padding-left: 0;
+        }
+
+        #kong {
+            margin-left: 20px;
+        }
+
+        #view button {
+            display: inline-block;
+            background-color: chocolate;
+            margin-right: 10px;
+            font-size: 16px;
+            padding: 5px;
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id=input>
+    <ul id="butt">
+        <li><button>左侧入</button></li>
+        <li><button>右侧入</button></li>
+        <li id="kong"><button>左侧出</button></li>
+        <li><button>右侧出</button></li>
+    </ul>
+    <div id="view"></div>
+</body>
+<script>
+
+    function getnum() {
+
+        var input = document.getElementById("input");
+        if (!input.value) alert("请输入数字！");
+        var para = input.value;
+        // var str =new Array();
+        //  str = para.split();
+        // alert (para.length);
+        var newStr = "";
+        if (input.value) {
+            for (var j = 0; j < para.length; j++) {
+                if (/[0-9]/g.test(para[j])) {
+                    newStr += para[j];
+                } else {
+                    alert("错误！请输入数字！")
+                    newStr="";
+                    break;
+                }
+            }
+            return newStr;
+        }
+
+    }//获取文本框输入的数字并进行了验证
+    function sunshift() {
+        var para = document.getElementById("view");
+        var spa = document.createElement("button");
+        var tex = getnum();
+        if (!tex) return false;
+
+        var text = document.createTextNode(tex);
+        spa.appendChild(text);
+        var ss = para.getElementsByTagName("button");
+            para.insertBefore(spa, ss[0]);
+        
+
+    }//从数组第一个元素增加
+    function sshift() {
+        var para = document.getElementById("view");
+        var spa = para.getElementsByTagName("button");
+        if (!spa) return false;
+        alert("删除" + spa[0].innerHTML);
+        para.removeChild(spa[0]);
+
+    }//从数组第一个元素减少
+    function spush() {
+        var para = document.getElementById("view");
+        var spa = document.createElement("button");
+        var tex = getnum();
+        if (!tex) return false;
+        var text = document.createTextNode(tex);
+        para.appendChild(spa);
+        spa.appendChild(text);
+        
+    }//从数组最后一个元素增加
+    function spop() {
+        var para = document.getElementById("view");
+        var spa = para.getElementsByTagName("button");
+        if (!spa) return false;
+        alert("删除" + spa[(spa.length - 1)].innerHTML);
+        para.removeChild(spa[(spa.length - 1)]);
+    }//从数组最后一个元素减少
+
+    function leftInto() {
+        sunshift();//从数组第一个元素增加
+    }
+    function leftShift() {
+        sshift();//从数组第一个元素减少
+    }
+    function rightInto() {
+        spush();//从数组最后一个元素增加
+    }
+    function rightPop() {
+        spop();//从数组最后一个元素减少
+    }
+    function remove(parent, aa) {
+        parent.removeChild(aa);
+    }
+    function delButton() {
+        var bull = document.getElementById("view");
+        var but = bull.getElementsByTagName("button");
+        // if(!butt) return false;
+  
+        
+        for(var j=0;j<but.length;j++){
+            but[j].onclick=function(){
+                alert(this.innerHTML)
+                bull.removeChild(this);
+            }
+        }
+    }
+
+    function addButton() {
+        var bul = document.getElementById("butt");
+        var butt = bul.getElementsByTagName("button");
+
+        butt[0].onclick = function () {
+            leftInto();
+            delButton();
+
+        }
+        butt[1].onclick = function () {
+            rightInto();
+            delButton();
+            
+
+        }
+        butt[2].onclick = function () {
+            leftShift();
+            delButton();
+
+        }
+        butt[3].onclick = function () {
+            rightPop();
+            delButton();
+
+        }
+        
+    }
+    function init() {
+        addButton();
+    
+
+    }
+    init();
+</script>
+
+</html>
+<!-- • 模拟一个队列，队列的每个元素是一个数字，初始队列为空
+• 有一个input输入框，以及4个操作按钮
+• 点击"左侧入"，将input中输入的数字从左侧插入队列中；
+• 点击"右侧入"，将input中输入的数字从右侧插入队列中；
+• 点击"左侧出"，读取并删除队列左侧第一个元素，并弹窗显示元素中数值；
+• 点击"右侧出"，读取并删除队列又侧第一个元素，并弹窗显示元素中数值；
+• 点击队列中任何一个元素，则该元素会被从队列中删除 -->

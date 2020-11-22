@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task3</title>
+
+    <style>
+        li {
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        #input {
+            box-sizing: border-box;
+           
+            height: 100px;
+            width: 150px;
+    transition: border .5s;
+           
+        }
+        #input:focus{
+          
+ 
+            border:  2px solid #7aaff0;
+          
+        }
+
+        ul {
+            display: inline;
+            padding-left: 0;
+        }
+        #view span{
+            display:inline-block;
+            background-color: coral;
+           margin-left: 5px;
+           padding: 5px;
+           height: 30px;
+           line-height: 30px;
+    transition: border .5s;
+
+        }
+  #matching:focus{
+    border:  2px solid #7aaff0;
+ 
+ 
+
+  }
+        
+
+    </style>
+</head>
+
+<body>
+    <textarea name="" id="input" cols="30" rows="10"></textarea>
+    <ul id="butt">
+       
+        <li><button>输入</button></li>
+        <li><button>匹配</button></li>
+        <li><input type="text" id="matching"></li>
+        
+    </ul>
+    <div id="view"></div>
+
+</body>
+<script>
+     function pipei(){
+         let tex=document.getElementById("matching").value;
+         var para=document.getElementById("view").getElementsByTagName("span");
+         
+         var v=new RegExp(tex);
+         for(let i=0;i<arr.length;i++){
+             para[i].style.backgroundColor="coral";
+             if(v.test(arr[i])){
+                 para[i].style.backgroundColor="red";
+             }
+         }
+
+     }
+     var arr=new Array();
+    function getnum() {
+
+        var input = document.getElementById("input");
+        if (!input.value) alert("请输入数字！");
+        var para = input.value;
+        if (input.value) {
+               let array=para.split(/[^0-9a-zA-Z\u4e00-\u9fa5]/g);
+               return array;
+
+        }
+
+    }//获取文本框输入的字符进行了验证，分割成字符串
+ 
+
+    function spush(text) {
+        var para = document.getElementById("view");
+        var spa = document.createElement("span");
+        var tex = text;
+        if (!tex) return false;
+        var text = document.createTextNode(tex);
+        para.appendChild(spa);
+        spa.appendChild(text);
+        
+    }//从数组最后一个元素增加
+    
+
+    
+    function rightInto() {
+        var zf=getnum();
+        for(let i=0;i<zf.length;i++){
+            spush(zf[i]);
+            arr.push(zf[i]);
+        }
+
+    }
+   
+    
+    
+
+    function addButton() {
+        var bul = document.getElementById("butt");
+        var butt = bul.getElementsByTagName("button");
+
+     
+        butt[0].onclick = function () {
+            rightInto();
+    
+        }
+        butt[1].onclick=function(){
+            pipei();
+        }
+    }
+    
+    function init() {
+        addButton();
+
+    }
+    init();
+</script>
+
+</body>
+
+</html>
